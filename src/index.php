@@ -1,5 +1,22 @@
 <!-- Membuat Aplikasi Todo Membuat Template -->
 
+<?php
+$todos = [];
+$file = file_get_contents('todo.txt');
+$todos = unserialize($file);
+
+
+if (isset($_post['todo'])) {
+    $data = $_post['todo'];
+    $todos[] = [
+        'todo' => $data,
+        'status' => 0
+    ];
+    file_put_contents('todo.txt', serialize($todos));
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +31,7 @@
         Todo App
     </h1>
 
-    <form action="">
+    <form method="post">
         <label for="">Apa kegiatanmu Hari Ini?</label> <br>
         <input type="text" name="todo">
         <button type="submit">Simpan</button>
