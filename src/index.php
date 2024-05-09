@@ -2,10 +2,6 @@
 
 <?php
 $todos = [];
-$file = file_get_contents('todo.txt');
-$todos = unserialize($file);
-
-
 if (isset($_post['todo'])) {
     $data = $_post['todo'];
     $todos[] = [
@@ -13,6 +9,9 @@ if (isset($_post['todo'])) {
         'status' => 0
     ];
     file_put_contents('todo.txt', serialize($todos));
+
+    $file = file_get_contents('todo.txt');
+    $todos = unserialize($file);
 }
 
 ?>
@@ -38,6 +37,16 @@ if (isset($_post['todo'])) {
     </form>
 
     <ul>
+        <li>
+            <input type="checkbox" name="todo">
+            <label for="">Todo 1</label>
+            <a href="#">Hapus</a>
+        </li>
+        <li>
+            <input type="checkbox" name="todo">
+            <label for="">Todo 1</label>
+            <a href="#">Hapus</a>
+        </li>
         <li>
             <input type="checkbox" name="todo">
             <label for="">Todo 1</label>
