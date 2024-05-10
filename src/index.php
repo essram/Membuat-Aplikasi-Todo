@@ -1,19 +1,25 @@
 <!-- Membuat Aplikasi Todo Membuat Template -->
 
 <?php
-$todos = [];
-if (isset($_post['todo'])) {
-    $data = $_post['todo'];
+//total array yang disiapkan untuk disimpan
+$todos    = [];
+//melakukan pengecekan apakah file todo.txt ditemukan
+if (file_exists('todo.txt')) {
+    //membaca file todo.txt
+    $file    =    file_get_contents('todo.txt');
+    //mengubah format serialize menjadi array
+    $todos    =    unserialize($file);
+}
+//Jika ditemukan todo yang dikirim melalui methode POST
+if (isset($_POST['todo'])) {
+    $data    = $_POST['todo']; // mengabil data yang di input pada form
     $todos[] = [
-        'todo' => $data,
+        'todo'    => $data,
         'status' => 0
     ];
-    file_put_contents('todo.txt', serialize($todos));
-
-    $file = file_get_contents('todo.txt');
-    $todos = unserialize($file);
+    $daftar_belanja = serialize($todos);
+    file_put_contents('todo.txt', $daftar_belanja);
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -37,21 +43,13 @@ if (isset($_post['todo'])) {
     </form>
 
     <ul>
-        <li>
-            <input type="checkbox" name="todo">
-            <label for="">Todo 1</label>
-            <a href="#">Hapus</a>
-        </li>
-        <li>
-            <input type="checkbox" name="todo">
-            <label for="">Todo 1</label>
-            <a href="#">Hapus</a>
-        </li>
-        <li>
-            <input type="checkbox" name="todo">
-            <label for="">Todo 1</label>
-            <a href="#">Hapus</a>
-        </li>
+        <?php foreach ($todos as $key => $value) : ?>
+            <li>
+                <input type="checkbox" name="todo">
+                <label for=""><?php echo $value['todo']; ?></label></label>
+                <a href="#">Hapus</a>
+            </li>
+        <?php endforeach ?>
     </ul>
 </body>
 
