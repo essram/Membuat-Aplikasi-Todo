@@ -1,5 +1,3 @@
-<!-- Membuat Aplikasi Todo Membuat Template -->
-
 <?php
 //total array yang disiapkan untuk disimpan
 $todos    = [];
@@ -12,45 +10,30 @@ if (file_exists('todo.txt')) {
 }
 //Jika ditemukan todo yang dikirim melalui methode POST
 if (isset($_POST['todo'])) {
-    $data    = $_POST['todo']; // mengabil data yang di input pada form
+    $data    = $_POST['todo']; // data yang dipilih pada form
     $todos[] = [
         'todo'    => $data,
         'status' => 0
     ];
     $daftar_belanja = serialize($todos);
     file_put_contents('todo.txt', $daftar_belanja);
+    //redirect halaman
+    header('location:index.php');
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To do App</title>
-</head>
-
-<body>
-    <h1>
-        Todo App
-    </h1>
-
-    <form method="post">
-        <label for="">Apa kegiatanmu Hari Ini?</label> <br>
-        <input type="text" name="todo">
-        <button type="submit">Simpan</button>
-    </form>
-
+<h1>Todo App</h1>
+<form action="" method="POST">
+    <label>Daftar Belanja Hari ini<label><br>
+            <input type="text" name="todo">
+            <button type="submit">Simpan</button>
+</form>
+<ul>
     <ul>
         <?php foreach ($todos as $key => $value) : ?>
             <li>
                 <input type="checkbox" name="todo">
-                <label for=""><?php echo $value['todo']; ?></label></label>
-                <a href="#">Hapus</a>
+                <label><?php echo $value['todo']; ?></label>
+                <a href='#'>hapus</a>
             </li>
-        <?php endforeach ?>
+        <?php endforeach; ?>
     </ul>
-</body>
-
-</html>
