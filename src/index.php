@@ -1,14 +1,16 @@
 <?php
-//total array yang disiapkan untuk disimpan
+// Menyiapkan array untuk menyimpan todos
 $todos = [];
-//melakukan pengecekan apakah file todo.txt ditemukan
+
+// Mengecek apakah file todo.txt ditemukan
 if (file_exists('todo.txt')) {
-    //membaca file todo.txt
+    // Membaca isi file todo.txt
     $file = file_get_contents('todo.txt');
-    //mengubah format serialize menjadi array
+    // Mengubah format serialize menjadi array
     $todos = unserialize($file);
 }
-//Jika ditemukan todo yang dikirim melalui methode POST
+
+// Jika ditemukan todo yang dikirim melalui metode POST
 if (isset($_POST['todo'])) {
     $data = $_POST['todo']; // data yang dipilih pada form
     $todos[] = [
@@ -18,16 +20,18 @@ if (isset($_POST['todo'])) {
     $daftar_belanja = serialize($todos);
     simpanData($daftar_belanja);
 }
-//jika ditemukan $_GET['status']
+
+// Jika ditemukan $_GET['status']
 if (isset($_GET['status'])) {
-    //ubah status
+    // Mengubah status
     $todos[$_GET['key']]['status'] = $_GET['status'];
     $daftar_belanja = serialize($todos);
     simpanData($daftar_belanja);
 }
-//jika ditemukan perintah hapus / $_GET['hapus']
+
+// Jika ditemukan perintah hapus / $_GET['hapus']
 if (isset($_GET['hapus'])) {
-    //hapus data dengan key sesuai yang dipilih
+    // Menghapus data dengan key sesuai yang dipilih
     unset($todos[$_GET['key']]);
     $daftar_belanja = serialize($todos);
     simpanData($daftar_belanja);
@@ -37,8 +41,9 @@ function simpanData($daftar_belanja)
 {
     file_put_contents('todo.txt', $daftar_belanja);
     header('location:index.php');
+    exit();
 }
-print_r($todos);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,7 +67,7 @@ print_r($todos);
             <?php foreach ($todos as $key => $value) : ?>
                 <li class="flex items-center justify-between mb-2">
                     <div class="flex items-center">
-                        <input type="checkbox" name="todo" class="mr-2" onclick="window.location.href='index.php?status=<?php echo ($value['status'] == 1) ? '0' : '1'; ?>&key=<?php echo $key; ?>'" <?php if ($value['status'] == 1) echo 'checked' ?>>
+                        <input type="checkbox" name="todo" class="mr-2" onclick="window.location.href='index.php?status=<?php echo ($value['status'] == 1) ? '0' : '1'; ?>&key=<?php echo $key; ?>'" <?php if ($value['status'] == 1) echo 'checked'; ?>>
                         <label class="<?php if ($value['status'] == 1) echo 'line-through'; ?>">
                             <?php echo htmlspecialchars($value['todo']); ?>
                         </label>
